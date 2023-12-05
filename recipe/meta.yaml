@@ -14,7 +14,7 @@ source:
 
 build:
   number: 2
-  skip: True  # [not linux]
+  skip: True  # [win]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   script:
     - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"
@@ -28,7 +28,7 @@ requirements:
     - make
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - {{ compiler('cuda') }}  # [cuda_compiler_version not in (undefined, "None")]
+    - {{ compiler('cuda') }}                    # [cuda_compiler_version not in (undefined, "None")]
     - {{ compiler('go') }} 1.20
     - go-licenses
   host:
