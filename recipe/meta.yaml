@@ -33,6 +33,7 @@ requirements:
     - go-licenses
   host:
     - cuda-version {{ cuda_compiler_version }}  # [cuda_compiler_version not in (undefined, "None")]
+    - libcublas-dev                             # [(cuda_compiler_version or "").startswith("12")]
   run:
     - cuda-version {{ cuda_compiler_version }}  # [cuda_compiler_version not in (undefined, "None")]
 
