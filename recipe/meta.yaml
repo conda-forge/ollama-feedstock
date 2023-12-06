@@ -24,9 +24,10 @@ build:
   script:
     - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"
     - go generate ./...
-    - go install .
+    - go install .                                                                                                          # [build_platform == target_platform]
     # TODO: This is due to a bug in our go-lang patch 
-    - unset CONDA_GO_COMPILER; GOPATH=$SRC_DIR/gopath go install; mkdir -p {{ target_gobin }}; cp gopath/bin/*/ollama {{ target_gobin }}  # [build_platform != target_platform]
+    #       Error message is go install can't write to GOBIN when cross compiling
+    - unset CONDA_GO_COMPILER; GOPATH=$SRC_DIR/gopath go install; mkdir -p $PREFIX/bin; cp gopath/bin/*/ollama $PREFIX/bin  # [build_platform != target_platform]
     - go-licenses save --save_path licenses ./...
 
 requirements:
