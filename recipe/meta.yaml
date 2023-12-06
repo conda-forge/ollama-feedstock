@@ -11,16 +11,29 @@ source:
   #sha256: 881d81d6a113f5361fc1648ee3f07f596b96a25ff9c9e6b243c2386adb8a0b26
   git_url: https://github.com/jmorganca/ollama.git
   git_rev: v{{ version }}
+  patches:
+    # Use the same build options from llama.cpp-feedstock
+    - 0001-darwin_amd64.patch  # [osx and x86_64]
+    - 0001-darwin_arm64.patch  # [osx and arm64]
 
 build:
   number: 2
-  skip: True  # [not linux]
+  skip: True  # [win]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
+  string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
+  string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and x86_64]
   script:
     - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"
     - go generate ./...
-    - go install .
+    - go install .                                                                                                            # [build_platform == target_platform]
+    # TODO: This is due to a bug in our go-lang patch 
+    #       Error message is go install can't write to GOBIN when cross compiling
+    - unset CONDA_GO_COMPILER; GOPATH=$SRC_DIR/gopath go install .; mkdir -p $PREFIX/bin; cp gopath/bin/*/ollama $PREFIX/bin  # [build_platform != target_platform]
     - go-licenses save --save_path licenses ./...
+
+  ignore_run_exports_from:
+    # llama.cpp server is staticially linked
+    - {{ compiler('cxx') }}  # [osx]
 
 requirements:
   build:
@@ -28,7 +41,7 @@ requirements:
     - make
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - {{ compiler('cuda') }}  # [cuda_compiler_version not in (undefined, "None")]
+    - {{ compiler('cuda') }}                    # [cuda_compiler_version not in (undefined, "None")]
     - {{ compiler('go') }} 1.20
     - go-licenses
   host:
