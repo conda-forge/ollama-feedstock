@@ -18,11 +18,14 @@ source:
 
 build:
   number: 2
-  skip: True  # [win]
+  skip: True  # [win and cuda_compiler_version != "None"]
+  skip: True  # [linux or osx]  # Save CI/CD Debug cycles
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
   string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [(osx and x86_64) or cuda_compiler_version == "None"]
   script:
+    - export CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++"  # [linux]
+    - set CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++"     # [win]
     - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"
     - go generate ./...
     - go install .                                                                                                            # [build_platform == target_platform]
@@ -33,7 +36,7 @@ build:
 
   ignore_run_exports_from:
     # llama.cpp server is staticially linked
-    - {{ compiler('cxx') }}  # [osx]
+    - {{ compiler('cxx') }}
 
 requirements:
   build:
