@@ -21,7 +21,7 @@ build:
   skip: True  # [win]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
-  string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and x86_64]
+  string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [(osx and x86_64) or cuda_compiler_version == "None"]
   script:
     - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"
     - go generate ./...
@@ -37,15 +37,16 @@ build:
 
 requirements:
   build:
-    - cmake
-    - make
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}                    # [cuda_compiler_version not in (undefined, "None")]
     - {{ compiler('go') }} 1.20
     - go-licenses
-  host:
-    - cuda-version {{ cuda_compiler_version }}  # [cuda_compiler_version not in (undefined, "None")]
+
+    - git
+    - cmake
+    - make
+    - cuda-cudart-dev                           # [(cuda_compiler_version or "").startswith("12")]
     - libcublas-dev                             # [(cuda_compiler_version or "").startswith("12")]
   run:
     - cuda-version {{ cuda_compiler_version }}  # [cuda_compiler_version not in (undefined, "None")]
