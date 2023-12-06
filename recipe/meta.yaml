@@ -18,8 +18,7 @@ source:
 
 build:
   number: 2
-  skip: True  # [win and cuda_compiler_version != "None"]
-  skip: True  # [linux or osx]  # Save CI/CD Debug cycles
+  skip: True  # [win]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
   string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [(osx and x86_64) or cuda_compiler_version == "None"]
