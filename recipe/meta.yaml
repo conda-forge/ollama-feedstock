@@ -13,16 +13,20 @@ source:
   git_rev: v{{ version }}
   patches:
     # Use the same build options from llama.cpp-feedstock
-    - 0001-build-options-darwin_arm64.patch  # [osx and arm64]
+    - 0001-darwin_amd64.patch  # [osx and x86_64]
+    - 0001-darwin_arm64.patch  # [osx and arm64]
 
 build:
   number: 2
   skip: True  # [win]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
+  string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx]
   script:
     - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"
     - go generate ./...
     - go install .
+    # TODO: This is due to a bug in our go-lang patch 
+    - unset CONDA_GO_COMPILER; GOPATH=$SRC_DIR/gopath go install; mkdir -p {{ target_gobin }}; cp gopath/bin/*/ollama {{ target_gobin }}  # [build_platform != target_platform]
     - go-licenses save --save_path licenses ./...
 
 requirements:
