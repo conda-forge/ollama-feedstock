@@ -20,7 +20,8 @@ build:
   number: 2
   skip: True  # [win]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
-  string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx]
+  string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
+  string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and x86_64]
   script:
     - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"
     - go generate ./...
@@ -29,6 +30,10 @@ build:
     #       Error message is go install can't write to GOBIN when cross compiling
     - unset CONDA_GO_COMPILER; GOPATH=$SRC_DIR/gopath go install .; mkdir -p $PREFIX/bin; cp gopath/bin/*/ollama $PREFIX/bin  # [build_platform != target_platform]
     - go-licenses save --save_path licenses ./...
+
+  ignore_run_exports_from:
+    # llama.cpp server is staticially linked
+    - {{ compiler('cxx') }}  # [osx]
 
 requirements:
   build:
