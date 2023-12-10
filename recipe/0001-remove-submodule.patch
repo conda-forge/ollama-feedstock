@@ -1,0 +1,91 @@
+diff --git a/llm/llama.cpp/generate_darwin_amd64.go b/llm/llama.cpp/generate_darwin_amd64.go
+index f3ae9e3..f50e5e9 100644
+--- a/llm/llama.cpp/generate_darwin_amd64.go
++++ b/llm/llama.cpp/generate_darwin_amd64.go
+@@ -1,8 +1,6 @@
+ package llm
+ 
+-//go:generate git submodule init
+-
+-//go:generate git submodule update --force ggml
++//go:generate git -C ggml status
+ //go:generate git -C ggml apply ../patches/0001-add-detokenize-endpoint.patch
+ //go:generate git -C ggml apply ../patches/0002-34B-model-support.patch
+ //go:generate git -C ggml apply ../patches/0003-metal-fix-synchronization-in-new-matrix-multiplicati.patch
+@@ -12,7 +10,7 @@ package llm
+ //go:generate cmake --build ggml/build/cpu --target server --config Release
+ //go:generate mv ggml/build/cpu/bin/server ggml/build/cpu/bin/ollama-runner
+ 
+-//go:generate git submodule update --force gguf
++//go:generate git -C gguf status
+ //go:generate git -C gguf apply ../patches/0001-update-default-log-target.patch
+ //go:generate git -C gguf apply ../patches/0001-metal-handle-ggml_scale-for-n-4-0-close-3754.patch
+ //go:generate git -C gguf apply ${RECIPE_DIR}/gguf-metal-pick-device.patch
+diff --git a/llm/llama.cpp/generate_darwin_arm64.go b/llm/llama.cpp/generate_darwin_arm64.go
+index 9914ca4..21c8565 100644
+--- a/llm/llama.cpp/generate_darwin_arm64.go
++++ b/llm/llama.cpp/generate_darwin_arm64.go
+@@ -1,8 +1,6 @@
+ package llm
+ 
+-//go:generate git submodule init
+-
+-//go:generate git submodule update --force ggml
++//go:generate git -C ggml status
+ //go:generate git -C ggml apply ../patches/0001-add-detokenize-endpoint.patch
+ //go:generate git -C ggml apply ../patches/0002-34B-model-support.patch
+ //go:generate git -C ggml apply ../patches/0003-metal-fix-synchronization-in-new-matrix-multiplicati.patch
+@@ -11,7 +9,7 @@ package llm
+ //go:generate cmake --build ggml/build/metal --target server --config Release
+ //go:generate mv ggml/build/metal/bin/server ggml/build/metal/bin/ollama-runner
+ 
+-//go:generate git submodule update --force gguf
++//go:generate git -C gguf status
+ //go:generate git -C gguf apply ../patches/0001-update-default-log-target.patch
+ //go:generate git -C gguf apply ../patches/0001-metal-handle-ggml_scale-for-n-4-0-close-3754.patch
+ //go:generate cmake -S gguf -B gguf/build/metal -DLLAMA_METAL=on -DLLAMA_ACCELERATE=on -DLLAMA_K_QUANTS=on -DCMAKE_SYSTEM_PROCESSOR=arm64 -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
+diff --git a/llm/llama.cpp/generate_linux.go b/llm/llama.cpp/generate_linux.go
+index 2e8264c..7e5bbed 100644
+--- a/llm/llama.cpp/generate_linux.go
++++ b/llm/llama.cpp/generate_linux.go
+@@ -1,8 +1,6 @@
+ package llm
+ 
+-//go:generate git submodule init
+-
+-//go:generate git submodule update --force ggml
++//go:generate git -C ggml status
+ //go:generate git -C ggml apply ../patches/0001-add-detokenize-endpoint.patch
+ //go:generate git -C ggml apply ../patches/0002-34B-model-support.patch
+ //go:generate git -C ggml apply ../patches/0005-ggml-support-CUDA-s-half-type-for-aarch64-1455-2670.patch
+@@ -11,7 +9,7 @@ package llm
+ //go:generate cmake --build ggml/build/cpu --target server --config Release
+ //go:generate mv ggml/build/cpu/bin/server ggml/build/cpu/bin/ollama-runner
+ 
+-//go:generate git submodule update --force gguf
++//go:generate git -C gguf status
+ //go:generate git -C gguf apply ../patches/0001-copy-cuda-runtime-libraries.patch
+ //go:generate git -C gguf apply ../patches/0001-update-default-log-target.patch
+ //go:generate cmake -S gguf -B gguf/build/cpu -DLLAMA_K_QUANTS=on -DLLAMA_NATIVE=off -DLLAMA_AVX=on -DLLAMA_AVX2=off -DLLAMA_AVX512=off -DLLAMA_FMA=off -DLLAMA_F16C=off
+diff --git a/llm/llama.cpp/generate_windows.go b/llm/llama.cpp/generate_windows.go
+index 326e83d..c06c1c9 100644
+--- a/llm/llama.cpp/generate_windows.go
++++ b/llm/llama.cpp/generate_windows.go
+@@ -1,15 +1,13 @@
+ package llm
+ 
+-//go:generate git submodule init
+-
+-//go:generate git submodule update --force ggml
++//go:generate git -C ggml status
+ //go:generate git -C ggml apply ../patches/0001-add-detokenize-endpoint.patch
+ //go:generate git -C ggml apply ../patches/0002-34B-model-support.patch
+ //go:generate cmake -S ggml -B ggml/build/cpu -DLLAMA_K_QUANTS=on
+ //go:generate cmake --build ggml/build/cpu --target server --config Release
+ //go:generate cmd /c move ggml\build\cpu\bin\Release\server.exe ggml\build\cpu\bin\Release\ollama-runner.exe
+ 
+-//go:generate git submodule update --force gguf
++//go:generate git -C gguf status
+ //go:generate git -C gguf apply ../patches/0001-update-default-log-target.patch
+ //go:generate cmake -S gguf -B gguf/build/cpu -DLLAMA_K_QUANTS=on -DLLAMA_NATIVE=off -DLLAMA_AVX=on -DLLAMA_AVX2=off -DLLAMA_AVX512=off -DLLAMA_FMA=off -DLLAMA_F16C=off
+ //go:generate cmake --build gguf/build/cpu --target server --config Release
