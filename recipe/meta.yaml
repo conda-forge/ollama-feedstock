@@ -23,6 +23,8 @@ source:
       - 0002-darwin_all-cmake-flags.patch
       - 0002-win_all-use-ninja-paths.patch
       - 0003-win_all-unhandle-ctrl-z.patch  # [win]
+      - 0004-linux-win_all-mkl.patch
+      - 0004-darwin_amd64-mkl.patch         # [blas_impl == "mkl"]
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ ggml_version }}.tar.gz
     folder: llm/llama.cpp/ggml
     sha256: {{ ggml_sha256 }}
@@ -31,9 +33,9 @@ source:
     sha256: {{ gguf_sha256 }}
 
 build:
-  number: 0
+  number: 1
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
-  string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [(osx and x86_64) or cuda_compiler_version == "None"]
+  string: cpu_{{ blas_impl }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [(osx and x86_64) or cuda_compiler_version == "None"]
   string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
   script:
     - git config --system user.email "conda-forge@numfocus.org"
@@ -48,6 +50,7 @@ build:
       popd
     {% endfor %}
 
+    - export CMAKE_GENERATOR=Ninja    # [unix]
     - set CMAKE_GENERATOR=Ninja       # [win]
     - set CMAKE_GENERATOR_PLATFORM=   # [win]
     - set CMAKE_GENERATOR_TOOLSET=    # [win]
@@ -76,15 +79,12 @@ requirements:
 
     - git
     - cmake
-    - make   # [unix]
-    - ninja  # [win]
-
-    # Tool can't find cudart/cublas in the host-environment
-    - cuda-cudart-dev                           # [(cuda_compiler_version or "").startswith("12")]
-    - libcublas-dev                             # [(cuda_compiler_version or "").startswith("12")]
+    - ninja
+    - pkgconfig                                  # [blas_impl == "mkl"]
   host:
     - cuda-cudart-dev                           # [(cuda_compiler_version or "").startswith("12")]
     - libcublas-dev                             # [(cuda_compiler_version or "").startswith("12")]
+    - blas-devel * *{{ blas_impl }}             # [blas_impl == "mkl"]
   run:
     - cuda-version {{ cuda_compiler_version }}  # [cuda_compiler_version not in (undefined, "None")]
     - cuda-cudart                               # [(cuda_compiler_version or "").startswith("12")]
