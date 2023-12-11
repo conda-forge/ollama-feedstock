@@ -1,5 +1,7 @@
 MACOSX_DEPLOYMENT_TARGET:
 - '11.0'
+blas_impl:
+- accelerate
 c_compiler:
 - clang
 c_compiler_version:

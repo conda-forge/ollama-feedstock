@@ -1,3 +1,5 @@
+blas_impl:
+- mkl
 c_compiler:
 - gcc
 c_compiler_version:
