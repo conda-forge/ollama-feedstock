@@ -29,7 +29,7 @@ source:
     sha256: {{ gguf_sha256 }}
 
 build:
-  number: 4
+  number: 0
   skip: True  # [win and cuda_compiler_version != "None"]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
