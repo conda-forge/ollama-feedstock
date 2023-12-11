@@ -46,10 +46,15 @@ build:
       git commit -m "conda-forge build"
       popd
     {% endfor %}
-    - export CMAKE_GENERATOR="Ninja"  # [unix]
-    - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"  # [unix]
+
+    - export CMAKE_GENERATOR=Ninja    # [unix]
     - set CMAKE_GENERATOR=Ninja       # [win]
+    - set CMAKE_GENERATOR_PLATFORM=   # [win]
+    - set CMAKE_GENERATOR_TOOLSET=    # [win]
+
+    - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"  # [unix]
     - set GOFLAGS='-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'  # [win]
+
     - go generate ./...
     - go install .                                                                                                            # [build_platform == target_platform]
     # TODO: This is due to a bug in our go-lang patch 
