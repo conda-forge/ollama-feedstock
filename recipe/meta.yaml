@@ -30,7 +30,7 @@ source:
 
 build:
   number: 0
-  skip: True  # [win and cuda_compiler_version not in ("None", "12.0")]
+  skip: True  # [win and cuda_compiler_version not in ("None", )]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
   string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [(osx and x86_64) or cuda_compiler_version == "None"]
@@ -46,11 +46,6 @@ build:
       git commit -m "conda-forge build"
       popd
     {% endfor %}
-
-    - export CMAKE_GENERATOR=Ninja    # [unix]
-    - set CMAKE_GENERATOR=Ninja       # [win]
-    - set CMAKE_GENERATOR_PLATFORM=   # [win]
-    - set CMAKE_GENERATOR_TOOLSET=    # [win]
 
     - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"  # [unix]
     - set GOFLAGS='-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'  # [win]
