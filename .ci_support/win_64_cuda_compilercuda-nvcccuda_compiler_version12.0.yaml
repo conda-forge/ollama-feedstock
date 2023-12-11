@@ -1,3 +1,5 @@
+blas_impl:
+- mkl
 c_compiler:
 - vs2019
 channel_sources:
