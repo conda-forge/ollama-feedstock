@@ -3,4 +3,4 @@ MACOSX_DEPLOYMENT_TARGET:   # [osx and x86_64]
 
 blas_impl:
 - accelerate  # [osx]
-- mkl         # [x86_64]
+- mkl         # [linux or win]

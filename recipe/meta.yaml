@@ -24,13 +24,18 @@ source:
       - 0002-win_all-use-ninja-paths.patch
       - 0003-win_all-unhandle-ctrl-z.patch  # [win]
       - 0004-linux-win_all-mkl.patch
-      - 0004-darwin_amd64-mkl.patch         # [blas_impl == "mkl"]
+
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ ggml_version }}.tar.gz
     folder: llm/llama.cpp/ggml
     sha256: {{ ggml_sha256 }}
+    patches:
+      - mkl.patch
+
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ gguf_version }}.tar.gz
     folder: llm/llama.cpp/gguf
     sha256: {{ gguf_sha256 }}
+    patches:
+      - mkl.patch
 
 build:
   number: 1
