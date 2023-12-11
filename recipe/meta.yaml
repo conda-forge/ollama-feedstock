@@ -4,8 +4,8 @@
 {% set version = "0.1.14" %}
 {% set ggml_version = "master-9e232f0" %}
 {% set ggml_sha256 = "e93334c097c7b6ce17eed47d44934b9354ee29b5ab4f572999547c2d1a2d46ef" %}
-{% set gguf_version = "b1567" %}
-{% set gguf_sha256 = "f10c98c3c60d5ddaa4b06e1e7922c9698b426f23734ade0bb20d330d1cd7e427" %}
+{% set gguf_version = "b1610" %}
+{% set gguf_sha256 = "4daccb087930b5a7974422c691fb3e86c4c1333e21fd16f031feadf92060aeae" %}
 
 package:
   name: {{ name|lower }}
