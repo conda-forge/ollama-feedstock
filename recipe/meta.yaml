@@ -1,26 +1,26 @@
 {% set name = "ollama" %}
 {% set goname = "github.com/jmorganca/ollama" %}
 # DO NOT AUTO MERGE WITHOUT VERIFYING THE GIT_REVISIONS OF ggml AND gguf
-{% set version = "0.1.11" %}
+{% set version = "0.1.12" %}
 {% set ggml_version = "master-9e232f0" %}
 {% set ggml_sha256 = "e93334c097c7b6ce17eed47d44934b9354ee29b5ab4f572999547c2d1a2d46ef" %}
-{% set gguf_version = "b1412" %}
-{% set gguf_sha256 = "9c127ec8a6c54e7c03e2a246a41382ce7df7c4e46543bc7fec685600d6e2e6d9" %}
+{% set gguf_version = "b1567" %}
+{% set gguf_sha256 = "f10c98c3c60d5ddaa4b06e1e7922c9698b426f23734ade0bb20d330d1cd7e427" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  - url: https://{{ goname }}/archive/v{{ version }}.tar.gz
-    sha256: 881d81d6a113f5361fc1648ee3f07f596b96a25ff9c9e6b243c2386adb8a0b26
+  - url: https://{{ goname }}/archive/v{{ version }}.tar.gz 
+    sha256: cb1b89dced501023352658da144f1bc0bc67b30c5db49502bbb92f24a65e0e6f
     folder: .
     patches:
       # Use the same build options from llama.cpp-feedstock
-      - 0001-darwin_amd64.patch
-      - 0001-darwin_arm64.patch
       - 0001-remove-submodule.patch
       - 0001-linux_all-do-not-copy-cuda.patch
+      - 0001-darwin_all-metal-pick-device.patch
+      - 0002-darwin_all-cmake-flags.patch
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ ggml_version }}.tar.gz
     folder: llm/llama.cpp/ggml
     sha256: {{ ggml_sha256 }}
@@ -29,8 +29,8 @@ source:
     sha256: {{ gguf_sha256 }}
 
 build:
-  number: 4
-  skip: True  # [win and cuda_compiler_version != "None"]
+  number: 0
+  skip: True  # [win and cuda_compiler_version not in ("None", )]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
   string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [(osx and x86_64) or cuda_compiler_version == "None"]
@@ -46,7 +46,10 @@ build:
       git commit -m "conda-forge build"
       popd
     {% endfor %}
-    - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"
+
+    - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"  # [unix]
+    - set GOFLAGS='-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'  # [win]
+
     - go generate ./...
     - go install .                                                                                                            # [build_platform == target_platform]
     # TODO: This is due to a bug in our go-lang patch 
@@ -68,7 +71,7 @@ requirements:
 
     - git
     - cmake
-    - make                                      # [unix]
+    - make  # [unix]
 
     # Tool can't find cudart/cublas in the host-environment
     - cuda-cudart-dev                           # [(cuda_compiler_version or "").startswith("12")]
