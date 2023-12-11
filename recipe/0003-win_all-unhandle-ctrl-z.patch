@@ -1,20 +1,20 @@
 diff --git a/readline/readline.go b/readline/readline.go
-index 88813fc6d..781ac8a3b 100644
+index 781ac8a..88813fc 100644
 --- a/readline/readline.go
 +++ b/readline/readline.go
-@@ -191,6 +191,15 @@ func (i *Instance) Readline() (string, error) {
+@@ -191,15 +191,6 @@ func (i *Instance) Readline() (string, error) {
  			buf.ClearScreen()
  		case CharCtrlW:
  			buf.DeleteWord()
-+		case CharCtrlZ:
-+			if err := UnsetRawMode(fd, termios); err != nil {
-+				return "", err
-+			}
-+
-+			syscall.Kill(0, syscall.SIGSTOP)
-+
-+			// on resume...
-+			return "", nil
+-		case CharCtrlZ:
+-			if err := UnsetRawMode(fd, termios); err != nil {
+-				return "", err
+-			}
+-
+-			syscall.Kill(0, syscall.SIGSTOP)
+-
+-			// on resume...
+-			return "", nil
  		case CharEnter:
  			output := buf.String()
  			if output != "" {
