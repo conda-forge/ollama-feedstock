@@ -57,17 +57,10 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>osx_64_blas_implaccelerate</td>
+              <td>osx_64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=20880&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/ollama-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_blas_implaccelerate" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>osx_64_blas_implmkl</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=20880&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/ollama-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_blas_implmkl" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/ollama-feedstock?branchName=main&jobName=osx&configuration=osx%20osx_64_" alt="variant">
                 </a>
               </td>
             </tr><tr>
