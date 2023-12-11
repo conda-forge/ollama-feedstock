@@ -71,7 +71,7 @@ requirements:
 
     - git
     - cmake
-    - ninja
+    - make  # [unix]
 
     # Tool can't find cudart/cublas in the host-environment
     - cuda-cudart-dev                           # [(cuda_compiler_version or "").startswith("12")]
