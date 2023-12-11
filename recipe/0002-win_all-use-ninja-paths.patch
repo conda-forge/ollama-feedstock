@@ -1,0 +1,42 @@
+diff --git a/llm/llama.cpp/generate_windows.go b/llm/llama.cpp/generate_windows.go
+index d452c03..4f20567 100644
+--- a/llm/llama.cpp/generate_windows.go
++++ b/llm/llama.cpp/generate_windows.go
+@@ -5,18 +5,18 @@ package llm
+ //go:generate git -C ggml apply ../patches/0002-34B-model-support.patch
+ //go:generate cmake -S ggml -B ggml/build/cpu -DLLAMA_K_QUANTS=on
+ //go:generate cmake --build ggml/build/cpu --target server --config Release
+-//go:generate cmd /c move ggml\build\cpu\bin\Release\server.exe ggml\build\cpu\bin\Release\ollama-runner.exe
++//go:generate cmd /c move ggml\build\cpu\bin\server.exe ggml\build\cpu\bin\ollama-runner.exe
+ 
+ //go:generate git -C gguf status
+ //go:generate git -C gguf apply ../patches/0001-update-default-log-target.patch
+ //go:generate cmake -S gguf -B gguf/build/cpu -DLLAMA_K_QUANTS=on -DLLAMA_NATIVE=off -DLLAMA_AVX=on -DLLAMA_AVX2=off -DLLAMA_AVX512=off -DLLAMA_FMA=off -DLLAMA_F16C=off
+ //go:generate cmake --build gguf/build/cpu --target server --config Release
+-//go:generate cmd /c move gguf\build\cpu\bin\Release\server.exe gguf\build\cpu\bin\Release\ollama-runner.exe
++//go:generate cmd /c move gguf\build\cpu\bin\server.exe gguf\build\cpu\bin\ollama-runner.exe
+ 
+ //go:generate cmake -S ggml -B ggml/build/cuda -DLLAMA_CUBLAS=on -DLLAMA_ACCELERATE=on -DLLAMA_K_QUANTS=on
+ //go:generate cmake --build ggml/build/cuda --target server --config Release
+-//go:generate cmd /c move ggml\build\cuda\bin\Release\server.exe ggml\build\cuda\bin\Release\ollama-runner.exe
++//go:generate cmd /c move ggml\build\cuda\bin\server.exe ggml\build\cuda\bin\ollama-runner.exe
+ 
+ //go:generate cmake -S gguf -B gguf/build/cuda -DLLAMA_CUBLAS=on -DLLAMA_ACCELERATE=on -DLLAMA_K_QUANTS=on -DLLAMA_NATIVE=off -DLLAMA_AVX=on -DLLAMA_AVX2=off -DLLAMA_AVX512=off -DLLAMA_FMA=off -DLLAMA_F16C=off
+ //go:generate cmake --build gguf/build/cuda --target server --config Release
+-//go:generate cmd /c move gguf\build\cuda\bin\Release\server.exe gguf\build\cuda\bin\Release\ollama-runner.exe
++//go:generate cmd /c move gguf\build\cuda\bin\server.exe gguf\build\cuda\bin\ollama-runner.exe
+diff --git a/llm/llama.go b/llm/llama.go
+index 6ccac86..e6533ea 100644
+--- a/llm/llama.go
++++ b/llm/llama.go
+@@ -85,8 +85,8 @@ func chooseRunners(workDir, runnerType string) []ModelRunner {
+ 	case "windows":
+ 		// TODO: select windows GPU runner here when available
+ 		runners = []ModelRunner{
+-			{Type: runnerType, Path: path.Join(buildPath, "cuda", "bin", "Release", "ollama-runner.exe"), Accelerated: true},
+-			{Type: runnerType, Path: path.Join(buildPath, "cpu", "bin", "Release", "ollama-runner.exe")},
++			{Type: runnerType, Path: path.Join(buildPath, "cuda", "bin", "ollama-runner.exe"), Accelerated: true},
++			{Type: runnerType, Path: path.Join(buildPath, "cpu", "bin", "ollama-runner.exe")},
+ 		}
+ 	default:
+ 		log.Printf("unknown OS, running on CPU: %s", runtime.GOOS)
