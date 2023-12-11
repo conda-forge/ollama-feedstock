@@ -1,7 +1,7 @@
 {% set name = "ollama" %}
 {% set goname = "github.com/jmorganca/ollama" %}
 # DO NOT AUTO MERGE WITHOUT VERIFYING THE GIT_REVISIONS OF ggml AND gguf
-{% set version = "0.1.13" %}
+{% set version = "0.1.14" %}
 {% set ggml_version = "master-9e232f0" %}
 {% set ggml_sha256 = "e93334c097c7b6ce17eed47d44934b9354ee29b5ab4f572999547c2d1a2d46ef" %}
 {% set gguf_version = "b1567" %}
@@ -12,8 +12,8 @@ package:
   version: {{ version }}
 
 source:
-  - url: https://{{ goname }}/archive/v{{ version }}.tar.gz 
-    sha256: db81db5858afa942ee08407a675db30f9528bd06f2e5ee9b6e1400e53e3dc9a8
+  - url: https://{{ goname }}/archive/v{{ version }}.tar.gz
+    sha256: 789a64e5f8da0cd71ff3ed339fe1b47727a44f6c009c0e3c4c094990b64cbd8b
     folder: .
     patches:
       # Use the same build options from llama.cpp-feedstock
@@ -30,7 +30,7 @@ source:
 
 build:
   number: 0
-  skip: True  # [win and cuda_compiler_version not in ("None", )]
+  skip: true  # [win and cuda_compiler_version not in ("None", )]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
   string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [(osx and x86_64) or cuda_compiler_version == "None"]
