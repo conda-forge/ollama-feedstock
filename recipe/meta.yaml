@@ -30,7 +30,7 @@ source:
 
 build:
   number: 0
-  skip: True  # [win and cuda_compiler_version not in ("None")]
+  skip: True  # [win and cuda_compiler_version not in ("None", "12.0")]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
   string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [(osx and x86_64) or cuda_compiler_version == "None"]
@@ -46,7 +46,10 @@ build:
       git commit -m "conda-forge build"
       popd
     {% endfor %}
-    - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"
+    - export CMAKE_GENERATOR="Ninja"  # [unix]
+    - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"  # [unix]
+    - set CMAKE_GENERATOR=Ninja       # [win]
+    - set GOFLAGS='-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'  # [win]
     - go generate ./...
     - go install .                                                                                                            # [build_platform == target_platform]
     # TODO: This is due to a bug in our go-lang patch 
@@ -68,7 +71,7 @@ requirements:
 
     - git
     - cmake
-    - make                                      # [unix]
+    - ninja
 
     # Tool can't find cudart/cublas in the host-environment
     - cuda-cudart-dev                           # [(cuda_compiler_version or "").startswith("12")]
