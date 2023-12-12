@@ -21,7 +21,7 @@ source:
       - 0001-linux_all-do-not-copy-cuda.patch
       - 0001-darwin_all-metal-pick-device.patch
       - 0002-darwin_all-cmake-flags.patch
-      - 0002-win_all-use-ninja-paths.patch
+      # - 0002-win_all-use-ninja-paths.patch
       - 0003-win_all-unhandle-ctrl-z.patch  # [win]
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ ggml_version }}.tar.gz
     folder: llm/llama.cpp/ggml
@@ -31,7 +31,8 @@ source:
     sha256: {{ gguf_sha256 }}
 
 build:
-  number: 0
+  skip: True  # [win and cuda_compiler_version not in ("None", )]
+  number: 1
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [(osx and x86_64) or cuda_compiler_version == "None"]
   string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
@@ -47,10 +48,6 @@ build:
       git commit -m "conda-forge build"
       popd
     {% endfor %}
-
-    - set CMAKE_GENERATOR=Ninja       # [win]
-    - set CMAKE_GENERATOR_PLATFORM=   # [win]
-    - set CMAKE_GENERATOR_TOOLSET=    # [win]
 
     - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"  # [unix]
     - set GOFLAGS='-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'  # [win]
@@ -77,7 +74,6 @@ requirements:
     - git
     - cmake
     - make   # [unix]
-    - ninja  # [win]
 
     # Tool can't find cudart/cublas in the host-environment
     - cuda-cudart-dev                           # [(cuda_compiler_version or "").startswith("12")]
