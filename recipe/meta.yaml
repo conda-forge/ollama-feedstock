@@ -22,7 +22,6 @@ source:
       - 0001-darwin_all-metal-pick-device.patch
       - 0002-darwin_all-cmake-flags.patch
       # - 0002-win_all-use-ninja-paths.patch
-      - 0003-win_all-unhandle-ctrl-z.patch  # [win]
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ ggml_version }}.tar.gz
     folder: llm/llama.cpp/ggml
     sha256: {{ ggml_sha256 }}
