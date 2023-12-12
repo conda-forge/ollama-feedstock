@@ -1,7 +1,7 @@
 {% set name = "ollama" %}
 {% set goname = "github.com/jmorganca/ollama" %}
 # DO NOT AUTO MERGE WITHOUT VERIFYING THE GIT_REVISIONS OF ggml AND gguf
-{% set version = "0.1.14" %}
+{% set version = "0.1.15" %}
 {% set ggml_version = "master-9e232f0" %}
 {% set ggml_sha256 = "e93334c097c7b6ce17eed47d44934b9354ee29b5ab4f572999547c2d1a2d46ef" %}
 {% set gguf_version = "b1610" %}
@@ -13,7 +13,7 @@ package:
 
 source:
   - url: https://{{ goname }}/archive/v{{ version }}.tar.gz
-    sha256: 789a64e5f8da0cd71ff3ed339fe1b47727a44f6c009c0e3c4c094990b64cbd8b
+    sha256: d3f5baaff20d3fab4b4c6c95d67f2809e6c55e920b4ef6953761a43a5fc11082
     folder: .
     patches:
       # Use the same build options from llama.cpp-feedstock
@@ -22,7 +22,6 @@ source:
       - 0001-darwin_all-metal-pick-device.patch
       - 0002-darwin_all-cmake-flags.patch
       # - 0002-win_all-use-ninja-paths.patch
-      - 0003-win_all-unhandle-ctrl-z.patch  # [win]
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ ggml_version }}.tar.gz
     folder: llm/llama.cpp/ggml
     sha256: {{ ggml_sha256 }}
@@ -31,8 +30,8 @@ source:
     sha256: {{ gguf_sha256 }}
 
 build:
-  skip: True  # [win and cuda_compiler_version not in ("None", )]
-  number: 1
+  skip: true  # [win and cuda_compiler_version not in ("None", )]
+  number: 0
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: cpu_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [(osx and x86_64) or cuda_compiler_version == "None"]
   string: mps_h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}  # [osx and arm64]
