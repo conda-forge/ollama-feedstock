@@ -1,7 +1,7 @@
 {% set name = "ollama" %}
 {% set goname = "github.com/jmorganca/ollama" %}
 # DO NOT AUTO MERGE WITHOUT VERIFYING THE GIT_REVISIONS OF ggml AND gguf
-{% set version = "0.1.15" %}
+{% set version = "0.1.16" %}
 {% set ggml_version = "master-9e232f0" %}
 {% set ggml_sha256 = "e93334c097c7b6ce17eed47d44934b9354ee29b5ab4f572999547c2d1a2d46ef" %}
 {% set gguf_version = "b1610" %}
@@ -13,7 +13,7 @@ package:
 
 source:
   - url: https://{{ goname }}/archive/v{{ version }}.tar.gz
-    sha256: d3f5baaff20d3fab4b4c6c95d67f2809e6c55e920b4ef6953761a43a5fc11082
+    sha256: 721c63f6f1ee617af5151cf42862665533d2e5b16b157e156eb99a914b3b4052
     folder: .
     patches:
       # Use the same build options from llama.cpp-feedstock
