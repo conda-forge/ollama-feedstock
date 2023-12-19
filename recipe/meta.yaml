@@ -17,15 +17,18 @@ source:
       # Use the same build options from llama.cpp-feedstock
       - 0001-remove-submodule.patch
       - 0001-linux_all-do-not-copy-cuda.patch
-      - 0001-darwin_all-metal-pick-device.patch
       - 0002-darwin_all-cmake-flags.patch
       # - 0002-win_all-use-ninja-paths.patch
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ ggml_version }}.tar.gz
     folder: llm/llama.cpp/ggml
     sha256: e93334c097c7b6ce17eed47d44934b9354ee29b5ab4f572999547c2d1a2d46ef 
+    patches:
+      - ggml-metal-pick-device.patch
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ gguf_version }}.tar.gz
     folder: llm/llama.cpp/gguf
     sha256: c4f6aa6823cefd62559281483edd58f45fad45d6d65ee74df7dd3b0e1455186e
+    patches:
+      - gguf-metal-pick-device.patch
 
 build:
   skip: true  # [win and cuda_compiler_version not in ("None", )]
