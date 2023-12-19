@@ -18,6 +18,7 @@ source:
       - 0001-remove-submodule.patch
       - 0001-linux_all-do-not-copy-cuda.patch
       - 0002-darwin_all-cmake-flags.patch
+      - 0002-linux_all-disable-cuda.patch  # [linux and cuda_compiler_version in (undefined, "None")]
       # - 0002-win_all-use-ninja-paths.patch
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ ggml_version }}.tar.gz
     folder: llm/llama.cpp/ggml
@@ -50,10 +51,10 @@ build:
     {% endfor %}
 
     - export GOFLAGS="'-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'"  # [unix]
-    - set GOFLAGS='-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'  # [win]
+    - set GOFLAGS='-ldflags=-X=github.com/jmorganca/ollama/version.Version={{ version }} -X=github.com/jmorganca/ollama/server.mode=release'       # [win]
 
     - go generate ./... || exit 1
-    - go install . || exit 1                                                                                             # [build_platform == target_platform]
+    - go install . || exit 1                                                                                                  # [build_platform == target_platform]
     # TODO: This is due to a bug in our go-lang patch 
     #       Error message is go install can't write to GOBIN when cross compiling
     - unset CONDA_GO_COMPILER; GOPATH=$SRC_DIR/gopath go install .; mkdir -p $PREFIX/bin; cp gopath/bin/*/ollama $PREFIX/bin  # [build_platform != target_platform]
@@ -73,7 +74,7 @@ requirements:
 
     - git
     - cmake
-    - make   # [unix]
+    - make
 
     # Tool can't find cudart/cublas in the host-environment
     - cuda-cudart-dev  {{ cuda_compiler_version }}  # [(cuda_compiler_version or "").startswith("12")]
