@@ -76,14 +76,16 @@ requirements:
     - make   # [unix]
 
     # Tool can't find cudart/cublas in the host-environment
-    - cuda-cudart-dev                           # [(cuda_compiler_version or "").startswith("12")]
-    - libcublas-dev                             # [(cuda_compiler_version or "").startswith("12")]
+    - cuda-cudart-dev  {{ cuda_compiler_version }}  # [(cuda_compiler_version or "").startswith("12")]
+    - libcublas-dev    {{ cuda_compiler_version }}  # [(cuda_compiler_version or "").startswith("12")]
   host:
-    - cuda-cudart-dev                           # [(cuda_compiler_version or "").startswith("12")]
-    - libcublas-dev                             # [(cuda_compiler_version or "").startswith("12")]
+    # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
+    - cuda-version     {{ cuda_compiler_version }}  # [cuda_compiler_version != "None" and not (cuda_compiler_version or "").startswith("12")]
+    - cuda-cudart-dev  {{ cuda_compiler_version }}  # [(cuda_compiler_version or "").startswith("12")]
+    - libcublas-dev    {{ cuda_compiler_version }}  # [(cuda_compiler_version or "").startswith("12")]
   run:
-    - cuda-version {{ cuda_compiler_version }}  # [cuda_compiler_version not in (undefined, "None")]
-    - cuda-cudart                               # [(cuda_compiler_version or "").startswith("12")]
+    # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
+    - cuda-version     {{ cuda_compiler_version }}  # [cuda_compiler_version != "None" and not (cuda_compiler_version or "").startswith("12")]
 
 test:
   commands:
