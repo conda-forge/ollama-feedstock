@@ -1,6 +1,6 @@
 {% set name = "ollama" %}
 {% set goname = "github.com/jmorganca/ollama" %}
-{% set version = "0.1.17" %}
+{% set version = "0.3.11" %}
 # DO NOT AUTO MERGE WITHOUT VERIFYING THE GIT_REVISIONS OF ggml AND gguf
 {% set ggml_version = "master-9e232f0" %}
 {% set gguf_version = "b1661" %}
