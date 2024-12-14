@@ -28,6 +28,7 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}                    # [cuda_compiler_version not in (undefined, "None")]
     - {{ compiler('go') }}
+    - {{ stdlib("c") }}
     - go-licenses
 
     - git
