@@ -1,6 +1,6 @@
 {% set name = "ollama" %}
 {% set goname = "github.com/ollama/ollama" %}
-{% set version = "0.5.1" %}
+{% set version = "0.5.12" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   - url: https://{{ goname }}/archive/v{{ version }}.tar.gz
-    sha256: 94cd0d25f544a365c5b6efecbca6da65814faaedb5b8778ee2b92190f6f3ff7f
+    sha256: a38d5e3ce4ee13d237ef670231016d02ee81cb880f38d58795e989c73b5b7523
     folder: .
 
 build:
