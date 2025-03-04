@@ -16,12 +16,12 @@ build:
 
 requirements:
   build:
-    - ${{ stdlib("c") }}
     - ${{ compiler('go-cgo') }}
     - ${{ compiler('cxx') }}
     - cmake
     - make
     - go-licenses
+    - ${{ stdlib('c') }}
 
 tests:
   - script:
