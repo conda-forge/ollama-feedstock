@@ -1,6 +1,6 @@
 {% set name = "ollama" %}
 {% set goname = "github.com/jmorganca/ollama" %}
-{% set version = "0.1.17" %}
+{% set version = "0.5.13" %}
 # DO NOT AUTO MERGE WITHOUT VERIFYING THE GIT_REVISIONS OF ggml AND gguf
 {% set ggml_version = "master-9e232f0" %}
 {% set gguf_version = "b1661" %}
@@ -11,7 +11,7 @@ package:
 
 source:
   - url: https://{{ goname }}/archive/v{{ version }}.tar.gz
-    sha256: 5be6f90941a27cc61e9ad1a76dcfd2702f9d520758571ec4784a6f08de794ac2
+    sha256: 832723ea2d51c8bc1af4cbe04d8dba043e336a963400c68c3c2c29749ef88f44
     folder: .
     patches:
       # Use the same build options from llama.cpp-feedstock
@@ -22,7 +22,7 @@ source:
       # - 0002-win_all-use-ninja-paths.patch
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ ggml_version }}.tar.gz
     folder: llm/llama.cpp/ggml
-    sha256: e93334c097c7b6ce17eed47d44934b9354ee29b5ab4f572999547c2d1a2d46ef 
+    sha256: e93334c097c7b6ce17eed47d44934b9354ee29b5ab4f572999547c2d1a2d46ef
     patches:
       - ggml-metal-pick-device.patch
   - url: https://github.com/ggerganov/llama.cpp/archive/{{ gguf_version }}.tar.gz
@@ -67,6 +67,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}                    # [cuda_compiler_version not in (undefined, "None")]
     - {{ compiler('go') }} 1.21
