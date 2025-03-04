@@ -1,3 +1,8 @@
+if [ "$(uname)" == 'Darwin' ];
+then
+    export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
+fi
+
 cmake --preset 'CPU' \
     && cmake --build --parallel --preset 'CPU' \
     && cmake --install build --component CPU --strip --parallel 8
