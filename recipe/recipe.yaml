@@ -1,0 +1,45 @@
+context:
+  version: "0.5.12"
+
+package:
+  name: ollama
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
+  sha256: a38d5e3ce4ee13d237ef670231016d02ee81cb880f38d58795e989c73b5b7523
+
+build:
+  number: 0
+  script:
+    - build.sh
+
+requirements:
+  build:
+    - ${{ compiler('go-cgo') }}
+    - ${{ compiler('cxx') }}
+    - cmake
+    - make
+    - go-licenses
+
+tests:
+  - script:
+      - ollama --version
+
+about:
+  homepage: https://ollama.com/
+  repository: https://github.com/ollama/ollama
+  documentation: https://github.com/ollama/ollama
+  summary: Ollama CLI
+  description: |
+    Ollama is an easy way to get local language models running on your computer through a command-line interface.
+  license: MIT
+  license_file:
+    - LICENSE
+    # These license files are generated at build time in the `build.sh` script
+    # from all the dependencies of `temporal.io`.
+    - license-files/
+
+extra:
+  recipe-maintainers:
+    - benmoss
