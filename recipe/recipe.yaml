@@ -12,16 +12,22 @@ source:
 build:
   number: 0
   script:
-    - build.sh
+    - if: win
+      then: [build.bat]
+      else: [build.sh]
 
 requirements:
   build:
     - ${{ compiler('go-cgo') }}
-    - ${{ compiler('cxx') }}
     - cmake
     - make
     - go-licenses
-    - ${{ stdlib('c') }}
+    - if: win
+      then: ${{ stdlib("m2w64_c") }}
+      else: ${{ stdlib('c') }}
+    - if: win
+      then: ${{ compiler('m2w64_cxx') }}
+      else: ${{ compiler('cxx') }}
 
 tests:
   - script:
