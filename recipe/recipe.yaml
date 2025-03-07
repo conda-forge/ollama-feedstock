@@ -61,8 +61,6 @@ about:
   license: MIT
   license_file:
     - LICENSE
-    # These license files are generated at build time in the `build.sh` script
-    # from all the dependencies of `temporal.io`.
     - license-files/
 
 extra:
