@@ -1,5 +1,9 @@
 context:
   version: "0.5.12"
+  cuda_version: ${{ env.get("CONDA_OVERRIDE_CUDA", default="None")}}
+  cuda: ${{ "true" if cuda_version != "None" else "false" }}
+  cuda_build_string: cuda_${{ cuda_version | version_to_buildstring }}
+  string_prefix: ${{ cuda_build_string if cuda ==  "true" else "cpu_" }}
 
 package:
   name: ollama
@@ -11,6 +15,13 @@ source:
 
 build:
   number: 0
+  string: ${{ string_prefix }}h${{ hash }}_${{ build_number }}
+  variant:
+    use_keys:
+      # use cuda from the variant config, e.g. to build multiple CUDA variants
+      - ${{ "cuda" if cuda == "true" }}
+    # this will down-prioritize the cuda variant versus other variants of the package
+    down_prioritize_variant: ${{ 1 if cuda == "true" else 0 }}
   script:
     - if: win
       then: [build.bat]
@@ -23,11 +34,19 @@ requirements:
     - make
     - go-licenses
     - if: win
-      then: ${{ stdlib("m2w64_c") }}
+      then: ${{ stdlib('m2w64_c') }}
       else: ${{ stdlib('c') }}
     - if: win
       then: ${{ compiler('m2w64_cxx') }}
       else: ${{ compiler('cxx') }}
+    - if: cuda == "true"
+      then:
+        - ${{ compiler('cuda') }}
+        - cuda-version ==${{ cuda_version }}
+  host:
+    - if: cuda == "true"
+      then:
+        - cuda-version ==${{ cuda_version }}
 
 tests:
   - script:
