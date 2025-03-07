@@ -1,4 +1,4 @@
-cmake --preset CPU || exit 1
+cmake %CMAKE_ARGS% --preset CPU || exit 1
 cmake --build --parallel --preset CPU || exit 1
 cmake --install build --component CPU --strip --parallel 8 || exit 1
 
