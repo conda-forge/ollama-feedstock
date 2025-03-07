@@ -1,3 +1,6 @@
+#!/bin/bash
+set -ex
+
 if [ "$(uname)" == 'Darwin' ];
 then
     export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"

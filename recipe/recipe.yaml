@@ -1,8 +1,8 @@
 context:
   version: "0.5.12"
-  cuda: ${{ "true" if cuda_compiler_version != "None" else "false" }}
+  cuda: ${{ "true" if cuda_compiler_version != "None" else "" }}
   cuda_build_string: cuda_${{ cuda_compiler_version | version_to_buildstring }}
-  string_prefix: ${{ cuda_build_string if cuda ==  "true" else "cpu_" }}
+  string_prefix: ${{ cuda_build_string if cuda else "cpu_" }}
 
 package:
   name: ollama
@@ -38,13 +38,14 @@ requirements:
     - if: win
       then: ${{ compiler('m2w64_cxx') }}
       else: ${{ compiler('cxx') }}
-    - if: cuda == "true"
+    - if: cuda
       then:
         - ${{ compiler('cuda') }}
   host:
-    - if: cuda == "true"
+    - if: cuda
       then:
         - cuda-version ==${{ cuda_compiler_version }}
+        - libcublas-dev
 
 tests:
   - script:
