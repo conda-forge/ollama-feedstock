@@ -18,7 +18,7 @@ build:
   variant:
     use_keys:
       # use cuda from the variant config, e.g. to build multiple CUDA variants
-      - ${{ "cuda" if cuda == "true" }}
+      - ${{ "cuda" if cuda }}
     # this will down-prioritize the cuda variant versus other variants of the package
     down_prioritize_variant: ${{ 1 if cuda == "true" else 0 }}
   script:
@@ -45,7 +45,9 @@ requirements:
     - if: cuda
       then:
         - cuda-version ==${{ cuda_compiler_version }}
-        - libcublas-dev
+        - if: match(cuda_compiler_version, ">=12")
+          then:
+            - libcublas-dev
 
 tests:
   - script:
