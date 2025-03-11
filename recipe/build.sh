@@ -9,20 +9,20 @@ fi
 if [[ ${cuda_compiler_version} != "None" ]]; then
   if [[ ${cuda_compiler_version} == 11.8 ]]; then
     cmake ${CMAKE_ARGS} --preset 'CUDA 11' \
-        && cmake --build --parallel --preset 'CUDA 11' \
-        && cmake --install build --component CUDA --strip --parallel 8
+        && cmake --build --preset 'CUDA 11' \
+        && cmake --install build --component CUDA --strip
   elif [[ ${cuda_compiler_version} == 12.0 || ${cuda_compiler_version} == 12.6 ]]; then
     cmake ${CMAKE_ARGS} --preset 'CUDA 12' \
-        && cmake --build --parallel --preset 'CUDA 12' \
-        && cmake --install build --component CUDA --strip --parallel 8
+        && cmake --build --preset 'CUDA 12' \
+        && cmake --install build --component CUDA --strip
   else
     echo "unsupported cuda version"
     exit 1
   fi
 else
     cmake ${CMAKE_ARGS} --preset 'CPU' \
-        && cmake --build --parallel --preset 'CPU' \
-        && cmake --install build --component CPU --strip --parallel 8
+        && cmake --build --preset 'CPU' \
+        && cmake --install build --component CPU --strip
 fi
 
 

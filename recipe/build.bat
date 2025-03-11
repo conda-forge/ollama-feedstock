@@ -1,6 +1,6 @@
 cmake %CMAKE_ARGS% --preset CPU || exit 1
-cmake --build --parallel --preset CPU || exit 1
-cmake --install build --component CPU --strip --parallel 8 || exit 1
+cmake --build --preset CPU || exit 1
+cmake --install build --component CPU --strip || exit 1
 
 
 set CGO_ENABLED=1
