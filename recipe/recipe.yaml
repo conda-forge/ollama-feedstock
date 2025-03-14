@@ -25,10 +25,12 @@ build:
     - if: win
       then: [build.bat]
       else: [build.sh]
+  skip:
+    - cuda and match(cuda_compiler_version, "<12")
 
 requirements:
   build:
-    - ${{ compiler('go-cgo') }} 1.23.*
+    - ${{ compiler('go-cgo') }}
     - cmake
     - make
     - go-licenses
@@ -41,14 +43,16 @@ requirements:
     - if: cuda
       then:
         - ${{ compiler('cuda') }}
+        - cuda-version ==${{ cuda_compiler_version }}
   host:
     - if: cuda
       then:
         - cuda-version ==${{ cuda_compiler_version }}
-        - if: match(cuda_compiler_version, ">=12")
-          then:
-            - libcublas-dev
-
+        - libcublas-dev
+  ignore_run_exports:
+    from_package:
+      - if: cuda
+        then: libcublas-dev
 tests:
   - script:
       - ollama --version
