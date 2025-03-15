@@ -1,8 +1,7 @@
 #!/bin/bash
 set -ex
 
-if [ "$(uname)" == 'Darwin' ];
-then
+if [[ "$target_platform" == osx-* ]]; then
     export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 fi
 
@@ -26,7 +25,6 @@ else
 fi
 
 
-export CGO_ENABLED=1
 go build -trimpath -buildmode=pie -ldflags="-s -w -X=github.com/ollama/ollama/version.Version=${PKG_VERSION} -X=github.com/ollama/ollama/server.mode=release" -o $PREFIX/bin/ollama .
 
 go-licenses save . --save_path="$SRC_DIR/license-files/" 
