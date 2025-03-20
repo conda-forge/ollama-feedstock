@@ -1,0 +1,25 @@
+c_stdlib:
+- vs
+channel_sources:
+- conda-forge
+channel_targets:
+- conda-forge main
+cuda_compiler:
+- cuda-nvcc
+cuda_compiler_version:
+- '12.6'
+cxx_compiler:
+- vs2019
+m2w64_c_stdlib:
+- m2w64-sysroot
+m2w64_c_stdlib_version:
+- '12'
+m2w64_cxx_compiler:
+- gxx
+m2w64_cxx_compiler_version:
+- '13'
+target_platform:
+- win-64
+zip_keys:
+- - cuda_compiler
+  - cuda_compiler_version

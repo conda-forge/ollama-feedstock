@@ -1,0 +1,75 @@
+context:
+  version: "0.5.12"
+  cuda: ${{ "true" if cuda_compiler_version != "None" else "" }}
+  cuda_build_string: cuda_${{ cuda_compiler_version | version_to_buildstring }}
+  string_prefix: ${{ cuda_build_string if cuda else "cpu_" }}
+
+package:
+  name: ollama
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
+  sha256: a38d5e3ce4ee13d237ef670231016d02ee81cb880f38d58795e989c73b5b7523
+
+build:
+  number: 0
+  string: ${{ string_prefix }}h${{ hash }}_${{ build_number }}
+  variant:
+    use_keys:
+      # use cuda from the variant config, e.g. to build multiple CUDA variants
+      - ${{ "cuda" if cuda }}
+    # this will down-prioritize the cuda variant versus other variants of the package
+    down_prioritize_variant: ${{ 1 if cuda == "true" else 0 }}
+  script:
+    - if: win
+      then: [build.bat]
+      else: [build.sh]
+  skip:
+    - cuda and match(cuda_compiler_version, "<12")
+
+requirements:
+  build:
+    - ${{ compiler('go-cgo') }}
+    - cmake
+    - make
+    - go-licenses
+    - if: win
+      then: ${{ stdlib('m2w64_c') }}
+      else: ${{ stdlib('c') }}
+    - if: win
+      then: ${{ compiler('m2w64_cxx') }}
+      else: ${{ compiler('cxx') }}
+    - if: cuda
+      then:
+        - ${{ compiler('cuda') }}
+        - cuda-version ==${{ cuda_compiler_version }}
+  host:
+    - if: cuda
+      then:
+        - cuda-version ==${{ cuda_compiler_version }}
+        - libcublas-dev
+  ignore_run_exports:
+    from_package:
+      - if: cuda
+        then: libcublas-dev
+tests:
+  - script:
+      - ollama --version
+
+about:
+  homepage: https://ollama.com/
+  repository: https://github.com/ollama/ollama
+  documentation: https://github.com/ollama/ollama
+  summary: Ollama CLI
+  description: |
+    Ollama is an easy way to get local language models running on your computer through a command-line interface.
+  license: MIT
+  license_file:
+    - LICENSE
+    - license-files/
+
+extra:
+  recipe-maintainers:
+    - sodre
+    - benmoss

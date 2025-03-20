@@ -1,0 +1,48 @@
+# This file was generated automatically from conda-smithy. To update this configuration,
+# update the conda-forge.yml and/or the recipe/meta.yaml.
+# -*- mode: toml -*-
+
+[project]
+name = "ollama-feedstock"
+version = "3.47.0"
+description = "Pixi configuration for conda-forge/ollama-feedstock"
+authors = ["@conda-forge/ollama"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "win-64"]
+
+[dependencies]
+conda-build = ">=24.1"
+conda-forge-ci-setup = "4.*"
+rattler-build = "*"
+
+[tasks]
+inspect-all = "inspect_artifacts --all-packages"
+build = "rattler-build build --recipe recipe"
+"build-linux_64_cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13" = "rattler-build build --recipe recipe -m .ci_support/linux_64_cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13.yaml"
+"inspect-linux_64_cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13" = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_64_cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13.yaml"
+"build-linux_64_cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13" = "rattler-build build --recipe recipe -m .ci_support/linux_64_cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13.yaml"
+"inspect-linux_64_cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13" = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_64_cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13.yaml"
+"build-linux_aarch64_cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13" = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13.yaml"
+"inspect-linux_aarch64_cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13" = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13.yaml"
+"build-linux_aarch64_cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13" = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13.yaml"
+"inspect-linux_aarch64_cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13" = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13.yaml"
+"build-osx_64_" = "rattler-build build --recipe recipe -m .ci_support/osx_64_.yaml"
+"inspect-osx_64_" = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_64_.yaml"
+"build-osx_arm64_" = "rattler-build build --recipe recipe -m .ci_support/osx_arm64_.yaml"
+"inspect-osx_arm64_" = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_arm64_.yaml"
+"build-win_64_cuda_compilercuda-nvcccuda_compiler_version12.6" = "rattler-build build --recipe recipe -m .ci_support/win_64_cuda_compilercuda-nvcccuda_compiler_version12.6.yaml"
+"inspect-win_64_cuda_compilercuda-nvcccuda_compiler_version12.6" = "inspect_artifacts --recipe-dir recipe -m .ci_support/win_64_cuda_compilercuda-nvcccuda_compiler_version12.6.yaml"
+"build-win_64_cuda_compilerNonecuda_compiler_versionNone" = "rattler-build build --recipe recipe -m .ci_support/win_64_cuda_compilerNonecuda_compiler_versionNone.yaml"
+"inspect-win_64_cuda_compilerNonecuda_compiler_versionNone" = "inspect_artifacts --recipe-dir recipe -m .ci_support/win_64_cuda_compilerNonecuda_compiler_versionNone.yaml"
+
+[feature.smithy.dependencies]
+conda-smithy = "*"
+
+[feature.smithy.tasks]
+build-locally = "python ./build-locally.py"
+smithy = "conda-smithy"
+rerender = "conda-smithy rerender"
+lint = "conda-smithy lint recipe"
+
+[environments]
+smithy = ["smithy"]
