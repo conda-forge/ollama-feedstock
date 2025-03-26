@@ -218,4 +218,5 @@ Feedstock Maintainers
 =====================
 
 * [@benmoss](https://github.com/benmoss/)
+* [@sodre](https://github.com/sodre/)
 

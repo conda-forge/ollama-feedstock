@@ -1,5 +1,5 @@
 context:
-  version: "0.5.12"
+  version: "0.6.2"
   cuda: ${{ "true" if cuda_compiler_version != "None" else "" }}
   cuda_build_string: cuda_${{ cuda_compiler_version | version_to_buildstring }}
   string_prefix: ${{ cuda_build_string if cuda else "cpu_" }}
@@ -10,7 +10,7 @@ package:
 
 source:
   url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: a38d5e3ce4ee13d237ef670231016d02ee81cb880f38d58795e989c73b5b7523
+  sha256: 9a7e4315d8889f2f0cc2d5274685d5b79e59f21ec8a6400ce96bb578d99f35a9
 
 build:
   number: 0
@@ -35,11 +35,12 @@ requirements:
     - make
     - go-licenses
     - if: win
-      then: ${{ stdlib('m2w64_c') }}
-      else: ${{ stdlib('c') }}
-    - if: win
-      then: ${{ compiler('m2w64_cxx') }}
-      else: ${{ compiler('cxx') }}
+      then:
+        - ${{ stdlib('m2w64_c') }}
+        - ${{ compiler('m2w64_cxx') }}
+      else:
+        - ${{ stdlib('c') }}
+        - ${{ compiler('cxx') }}
     - if: cuda
       then:
         - ${{ compiler('cuda') }}
