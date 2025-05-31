@@ -26,7 +26,7 @@ build:
       then: [build.bat]
       else: [build.sh]
   skip:
-    - cuda and match(cuda_compiler_version, "<12")
+    - cuda and match(cuda_compiler_version, "<12") or (not win)
 
 requirements:
   build:
