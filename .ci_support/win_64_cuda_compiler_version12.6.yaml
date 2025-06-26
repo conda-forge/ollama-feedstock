@@ -9,7 +9,7 @@ cuda_compiler:
 cuda_compiler_version:
 - '12.6'
 cxx_compiler:
-- vs2019
+- vs2022
 m2w64_c_stdlib:
 - m2w64-sysroot
 m2w64_c_stdlib_version:
