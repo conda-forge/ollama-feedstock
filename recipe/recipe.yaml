@@ -1,5 +1,5 @@
 context:
-  version: "0.9.4"
+  version: "0.9.5"
   cuda: ${{ "true" if cuda_compiler_version != "None" else "" }}
   cuda_build_string: cuda_${{ cuda_compiler_version | version_to_buildstring }}
   string_prefix: ${{ cuda_build_string if cuda else "cpu_" }}
@@ -10,7 +10,7 @@ package:
 
 source:
   url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: aa151ed3c856d36f9d0cf0f3698db40c342f0eafac1b991264eea99188aa2ff0
+  sha256: b67d056634498cdb81d06a210267e5b2cbcf886e2e64316c65164b7f8962fde2
 
 build:
   number: 0
