@@ -13,8 +13,8 @@ source:
   sha256: 3ab00a02358696ce0c6ec97ca31037553c50ab6a6f57cc1825c713072540c6d3
 
 build:
-  number: 0
-  string: ${{ string_prefix }}h${{ hash }}_${{ build_number }}
+  number: 1
+  string: ${{ string_prefix }}h${{ hash }}_${{ number }}
   variant:
     use_keys:
       # use cuda from the variant config, e.g. to build multiple CUDA variants
