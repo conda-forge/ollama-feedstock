@@ -5,7 +5,7 @@ if [[ "$target_platform" == osx-* ]]; then
     export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 fi
 
-if [[ -z "$cuda_compiler_version" ]]; then
+if [[ -z "$cuda_compiler_version" || "$cuda_compiler_version" == "None" ]]; then
     cmake ${CMAKE_ARGS} --preset 'CPU' \
         && cmake --build --preset 'CPU' \
         && cmake --install build --component CPU --strip
