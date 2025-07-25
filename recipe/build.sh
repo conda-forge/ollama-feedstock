@@ -6,11 +6,11 @@ if [[ "$target_platform" == osx-* ]]; then
 fi
 
 if [[ ${cuda_compiler_version} != "None" ]]; then
-  if [[ ${cuda_compiler_version} == 11.8 ]]; then
+  if [[ ${cuda_compiler_version} == 11.* ]]; then
     cmake ${CMAKE_ARGS} --preset 'CUDA 11' \
         && cmake --build --preset 'CUDA 11' \
         && cmake --install build --component CUDA --strip
-  elif [[ ${cuda_compiler_version} == 12.0 || ${cuda_compiler_version} == 12.6 ]]; then
+  elif [[ ${cuda_compiler_version} == 12.* ]]; then
     cmake ${CMAKE_ARGS} --preset 'CUDA 12' \
         && cmake --build --preset 'CUDA 12' \
         && cmake --install build --component CUDA --strip
