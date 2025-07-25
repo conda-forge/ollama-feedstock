@@ -4,7 +4,7 @@ set -ex
 build_and_install() {
     local preset="$1"
     local component="$2"
-    cmake ${CMAKE_ARGS:+$CMAKE_ARGS} --preset "$preset" \
+    cmake ${CMAKE_ARGS} --preset "$preset" \
         && cmake --build --preset "$preset" \
         && cmake --install build --component "$component" --strip
 }
