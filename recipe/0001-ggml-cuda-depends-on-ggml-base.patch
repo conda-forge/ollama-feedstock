@@ -1,0 +1,27 @@
+From ca81d095d32b9869ba52f0ab7a651405da7a1c31 Mon Sep 17 00:00:00 2001
+From: Jindrich Makovicka <jindrich.makovicka@qminers.com>
+Date: Wed, 30 Jul 2025 07:20:49 -0400
+Subject: [PATCH] ggml-cuda depends on ggml-base
+
+Change-Id: Ic03f24f94300f5a3803d5468277a0bee2d36f930
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b3b5438a..2432837d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -78,7 +78,7 @@ if(CMAKE_CUDA_COMPILER)
+ 
+     find_package(CUDAToolkit)
+     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/ml/backend/ggml/ggml/src/ggml-cuda)
+-    install(TARGETS ggml-cuda
++    install(TARGETS ggml-cuda ggml-base
+         RUNTIME_DEPENDENCIES
+             DIRECTORIES ${CUDAToolkit_BIN_DIR} ${CUDAToolkit_LIBRARY_DIR}
+             PRE_INCLUDE_REGEXES cublas cublasLt cudart
+-- 
+2.49.0
+
+
