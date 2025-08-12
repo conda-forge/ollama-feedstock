@@ -218,5 +218,6 @@ Feedstock Maintainers
 =====================
 
 * [@benmoss](https://github.com/benmoss/)
+* [@jmakovicka](https://github.com/jmakovicka/)
 * [@sodre](https://github.com/sodre/)
 
