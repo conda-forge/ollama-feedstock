@@ -1,0 +1,28 @@
+From 5b32f50d4e5e02fe66ee02505a8830c9b6aa8450 Mon Sep 17 00:00:00 2001
+From: Jindrich Makovicka <jindrich.makovicka@qminers.com>
+Date: Thu, 21 Aug 2025 05:00:14 -0400
+Subject: [PATCH] Add defines missing in glibc 2.17
+
+Change-Id: I53687121bd858ac3ce148ac1bd6a614ce4944139
+---
+ ml/backend/ggml/ggml/src/ggml-cpu/arch/arm/cpu-feats.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/ml/backend/ggml/ggml/src/ggml-cpu/arch/arm/cpu-feats.cpp b/ml/backend/ggml/ggml/src/ggml-cpu/arch/arm/cpu-feats.cpp
+index 67369147..2e5ba65b 100644
+--- a/ml/backend/ggml/ggml/src/ggml-cpu/arch/arm/cpu-feats.cpp
++++ b/ml/backend/ggml/ggml/src/ggml-cpu/arch/arm/cpu-feats.cpp
+@@ -16,6 +16,10 @@
+ #define HWCAP2_SME (1 << 23)
+ #endif
+ 
++#define HWCAP_ASIMDDP           (1 << 20)
++#define HWCAP_FPHP              (1 << 9)
++#define HWCAP_SVE               (1 << 22)
++
+ struct aarch64_features {
+     // has_neon not needed, aarch64 has NEON guaranteed
+     bool has_dotprod     = false;
+-- 
+2.49.0
+
