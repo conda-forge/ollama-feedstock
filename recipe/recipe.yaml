@@ -3,7 +3,7 @@ context:
   cuda: ${{ "true" if cuda_compiler_version != "None" else "" }}
   cuda_build_string: cuda_${{ cuda_compiler_version | version_to_buildstring }}
   string_prefix: ${{ cuda_build_string if cuda else "cpu_" }}
-  build_number: 0
+  build_number: 1
 
 package:
   name: ollama
