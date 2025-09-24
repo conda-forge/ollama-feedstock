@@ -1,5 +1,5 @@
 context:
-  version: "0.12.0"
+  version: "0.12.1"
   cuda: ${{ "true" if cuda_compiler_version != "None" else "" }}
   cuda_build_string: cuda_${{ cuda_compiler_version | version_to_buildstring }}
   string_prefix: ${{ cuda_build_string if cuda else "cpu_" }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 4cdabf398aff3123a7a4bb8368ba88043922734419cbece4ebba80eb02f22cf9
+  sha256: e47a68d0793607cee3afbcd8ccb8e292b6c18bb812db678a5360b786334ce7c2
   patches:
     - 0001-ggml-cuda-depends-on-ggml-base.patch
     - if: linux
