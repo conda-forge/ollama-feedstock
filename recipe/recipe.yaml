@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 69f8a9bc20633b78ecdfa83022340ccda2ef655220a52d9db0bfdd238c93f156
+  sha256: a296d6129973db6363d3091f11414d5e406fafde31e30820eb42b7111d97d063
   patches:
     - 0001-ggml-cuda-depends-on-ggml-base.patch
     - if: linux
