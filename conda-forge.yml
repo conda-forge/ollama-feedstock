@@ -1,3 +1,5 @@
+azure:
+  free_disk_space: true
 bot:
   automerge: true
 build_platform:
