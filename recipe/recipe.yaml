@@ -16,6 +16,7 @@ source:
     - 0001-ggml-cuda-depends-on-ggml-base.patch
     - if: linux
       then: 0002-Add-defines-missing-in-glibc-2.17.patch
+    - 0003-replace-go-localereader.patch
 
 build:
   number: ${{ build_number }}
