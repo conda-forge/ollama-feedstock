@@ -1,5 +1,3 @@
-c_stdlib:
-- vs
 channel_sources:
 - conda-forge
 channel_targets:
@@ -8,8 +6,6 @@ cuda_compiler:
 - cuda-nvcc
 cuda_compiler_version:
 - None
-cxx_compiler:
-- vs2022
 m2w64_c_stdlib:
 - m2w64-sysroot
 m2w64_c_stdlib_version:
