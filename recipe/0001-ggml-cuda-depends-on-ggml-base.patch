@@ -12,16 +12,16 @@ diff --git a/CMakeLists.txt b/CMakeLists.txt
 index b3b5438a..2432837d 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -78,7 +78,7 @@ if(CMAKE_CUDA_COMPILER)
- 
+@@ -117,7 +117,7 @@ if(CMAKE_CUDA_COMPILER)
      find_package(CUDAToolkit)
      add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/ml/backend/ggml/ggml/src/ggml-cuda)
+     target_include_directories(ggml-cuda PRIVATE ${GGML_INCLUDE_DIRS})
 -    install(TARGETS ggml-cuda
 +    install(TARGETS ggml-cuda ggml-base
          RUNTIME_DEPENDENCIES
-             DIRECTORIES ${CUDAToolkit_BIN_DIR} ${CUDAToolkit_LIBRARY_DIR}
+             DIRECTORIES ${CUDAToolkit_BIN_DIR} ${CUDAToolkit_BIN_DIR}/x64 ${CUDAToolkit_LIBRARY_DIR}
              PRE_INCLUDE_REGEXES cublas cublasLt cudart
--- 
+--
 2.49.0
 
 
