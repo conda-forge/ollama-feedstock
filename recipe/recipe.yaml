@@ -13,7 +13,6 @@ source:
   url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
   sha256: c3e4ad09956c6133f9f53cd69a437a54fedd8d6cb2a85272bd2658b4847ab1fa
   patches:
-    - 0001-ggml-cuda-depends-on-ggml-base.patch
     - if: linux
       then: 0002-Add-defines-missing-in-glibc-2.17.patch
     - 0003-replace-go-localereader.patch
