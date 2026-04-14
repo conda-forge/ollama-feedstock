@@ -61,7 +61,10 @@ requirements:
         then: libcublas-dev
 tests:
   - script:
-      - HOME=/tmp ollama --version  # ollama panics if $HOME is unset
+      - if: unix
+        then: HOME=/tmp ollama --version  # ollama panics if $HOME is unset (upstream regression in v0.20.7)
+      - if: win
+        then: ollama --version
 
 about:
   homepage: https://ollama.com/
