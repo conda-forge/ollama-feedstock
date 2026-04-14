@@ -61,7 +61,7 @@ requirements:
         then: libcublas-dev
 tests:
   - script:
-      - ollama --version
+      - HOME=/tmp ollama --version  # ollama panics if $HOME is unset
 
 about:
   homepage: https://ollama.com/
