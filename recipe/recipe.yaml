@@ -1,5 +1,5 @@
 context:
-  version: "0.20.6"
+  version: "0.20.7"
   cuda: ${{ "true" if cuda_compiler_version != "None" else "" }}
   cuda_build_string: cuda_${{ cuda_compiler_version | version_to_buildstring }}
   string_prefix: ${{ cuda_build_string if cuda else "cpu_" }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 7f5d35d59f69e06dc3cd6195d78ac62ad0d646357cf2eb9299f41b40cdbc8af2
+  sha256: bec362ceeb19226856fa250e583effdfcfd9d5e394711dd21eb80e68659644ea
   patches:
     - if: linux
       then: 0002-Add-defines-missing-in-glibc-2.17.patch
@@ -61,7 +61,10 @@ requirements:
         then: libcublas-dev
 tests:
   - script:
-      - ollama --version
+      - if: unix
+        then: HOME=/tmp ollama --version  # ollama panics if $HOME is unset (upstream regression in v0.20.7)
+      - if: win
+        then: ollama --version
 
 about:
   homepage: https://ollama.com/
