@@ -1,5 +1,5 @@
 context:
-  version: "0.20.7"
+  version: "0.21.1"
   cuda: ${{ "true" if cuda_compiler_version != "None" else "" }}
   cuda_build_string: cuda_${{ cuda_compiler_version | version_to_buildstring }}
   string_prefix: ${{ cuda_build_string if cuda else "cpu_" }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: bec362ceeb19226856fa250e583effdfcfd9d5e394711dd21eb80e68659644ea
+  sha256: 1ee0b68db2cbcb16b7c334574cfe529933a06cb77b46911cd7d810dd44852bfa
   patches:
     - if: linux
       then: 0002-Add-defines-missing-in-glibc-2.17.patch
