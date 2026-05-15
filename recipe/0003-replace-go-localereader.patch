@@ -1,9 +1,9 @@
 diff --git a/go.mod b/go.mod
 --- a/go.mod
 +++ b/go.mod
-@@ -107,3 +107,5 @@
+@@ -108,3 +108,5 @@
  	google.golang.org/protobuf v1.34.1
- 	gopkg.in/yaml.v3 v3.0.1 // indirect
+ 	gopkg.in/yaml.v3 v3.0.1
  )
 +
 +replace github.com/mattn/go-localereader v0.0.1 => github.com/mattn/go-localereader v0.0.2-0.20220822084749-2491eb6c1c75
