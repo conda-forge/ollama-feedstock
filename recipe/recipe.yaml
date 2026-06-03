@@ -13,8 +13,6 @@ source:
   url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
   sha256: 08ca87f68816fd6e3489dd2784216515f0c7cf5b6863f35fea855602c450550e
   patches:
-    - if: linux
-      then: 0002-Add-defines-missing-in-glibc-2.17.patch
     - 0003-replace-go-localereader.patch
 
 build:
