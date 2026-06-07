@@ -5,6 +5,10 @@ if [[ "$target_platform" == osx-* ]]; then
     export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 fi
 
+# go-localereader v0.0.1 doesn't compile on Windows; replace with a patched fork.
+go mod edit -replace github.com/mattn/go-localereader@v0.0.1=github.com/mattn/go-localereader@v0.0.2-0.20220822084749-2491eb6c1c75
+go mod tidy
+
 if [[ ${cuda_compiler_version} != "None" ]]; then
   if [[ ${cuda_compiler_version} == 12.* ]]; then
     cmake ${CMAKE_ARGS} --preset 'CUDA 12' \
