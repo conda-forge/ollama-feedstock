@@ -21,10 +21,8 @@ if [[ ${cuda_compiler_version} != "None" ]]; then
   fi
 fi
 
-# MLX backends require the Metal toolchain (Xcode component) which isn't in the build env.
 cmake ${CMAKE_ARGS} -B build \
     -DOLLAMA_VERSION="${PKG_VERSION}" \
-    -DOLLAMA_MLX_BACKENDS= \
     "${CMAKE_BACKEND_ARGS[@]}" \
     .
 cmake --build build --parallel ${CPU_COUNT}
