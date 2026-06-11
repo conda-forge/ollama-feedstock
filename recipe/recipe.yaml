@@ -12,6 +12,8 @@ package:
 source:
   url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
   sha256: 6241a89e287f08d95dc63cd9a9892de3c5dc7de70db89ee44f96c210d4ea6d8d
+  patches:
+    - 0001-cmake-forward-cross-compilation-vars.patch
 
 build:
   number: ${{ build_number }}
@@ -28,6 +30,7 @@ build:
       else: [build.sh]
   skip:
     - cuda and match(cuda_compiler_version, "<12")
+    - osx and arm64
 
 requirements:
   build:

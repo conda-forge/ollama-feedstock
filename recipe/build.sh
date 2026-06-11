@@ -21,16 +21,10 @@ if [[ ${cuda_compiler_version} != "None" ]]; then
   fi
 fi
 
-CMAKE_CPU_ARGS=()
-if [[ "${target_platform}" == linux-aarch64 ]]; then
-  CMAKE_CPU_ARGS=(-DGGML_CPU_ALL_VARIANTS=OFF)
-fi
-
 cmake ${CMAKE_ARGS} -B build \
     -DOLLAMA_VERSION="${PKG_VERSION}" \
     -DOLLAMA_MLX_BACKENDS= \
     "${CMAKE_BACKEND_ARGS[@]}" \
-    "${CMAKE_CPU_ARGS[@]}" \
     .
 cmake --build build --parallel ${CPU_COUNT}
 cmake --install build --strip

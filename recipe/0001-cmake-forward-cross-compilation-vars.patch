@@ -1,0 +1,13 @@
+--- a/cmake/local.cmake
++++ b/cmake/local.cmake
+@@ -316,6 +316,10 @@ function(ollama_add_llama_server_build name)
+         ${_llama_cache_args}
+     )
+
++    # Forward cross-compilation settings so sub-builds detect the correct
++    # target architecture (e.g. aarch64 instead of auto-detecting the host).
++    ollama_append_cache_arg_if_set(_cmake_args CMAKE_SYSTEM_NAME)
++    ollama_append_cache_arg_if_set(_cmake_args CMAKE_SYSTEM_PROCESSOR)
+     if(APPLE)
+         if(CMAKE_OSX_ARCHITECTURES)
+             list(APPEND _cmake_args
