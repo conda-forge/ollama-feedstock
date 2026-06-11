@@ -1,6 +1,6 @@
 --- a/cmake/local.cmake
 +++ b/cmake/local.cmake
-@@ -316,6 +316,12 @@ function(ollama_add_llama_server_build name)
+@@ -316,6 +316,14 @@ function(ollama_add_llama_server_build name)
          ${_llama_cache_args}
      )
 
@@ -10,6 +10,8 @@
 +    ollama_append_cache_arg_if_set(_cmake_args CMAKE_SYSTEM_PROCESSOR)
 +    # Forward host C++ compiler path for building the llama-ui-embed tool.
 +    ollama_append_cache_arg_if_set(_cmake_args HOST_CXX_COMPILER)
++    # Forward build program so ExternalProject sub-builds find ninja/make.
++    ollama_append_cache_arg_if_set(_cmake_args CMAKE_MAKE_PROGRAM)
      if(APPLE)
          if(CMAKE_OSX_ARCHITECTURES)
              list(APPEND _cmake_args
