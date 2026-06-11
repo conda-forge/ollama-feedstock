@@ -1,10 +1,5 @@
-azure:
-  free_disk_space: true
 bot:
   automerge: true
-build_platform:
-  linux_aarch64: linux_64
-  osx_arm64: osx_64
 conda_build:
   error_overlinking: true
 conda_build_tool: rattler-build
@@ -13,4 +8,10 @@ conda_install_tool: pixi
 github:
   branch_name: main
   tooling_branch_name: main
+provider:
+  linux_64: github_actions
+  linux_aarch64: github_actions
+  osx_64: github_actions
+  osx_arm64: github_actions
+  win_64: github_actions
 test: native_and_emulated

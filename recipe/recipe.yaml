@@ -30,7 +30,6 @@ build:
       else: [build.sh]
   skip:
     - cuda and match(cuda_compiler_version, "<12")
-    - osx and arm64
 
 requirements:
   build:
