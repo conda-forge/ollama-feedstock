@@ -24,6 +24,7 @@ fi
 cmake ${CMAKE_ARGS} -B build \
     -DOLLAMA_VERSION="${PKG_VERSION}" \
     -DOLLAMA_MLX_BACKENDS= \
+    -DHOST_CXX_COMPILER="${CXX}" \
     "${CMAKE_BACKEND_ARGS[@]}" \
     .
 cmake --build build --parallel ${CPU_COUNT}
