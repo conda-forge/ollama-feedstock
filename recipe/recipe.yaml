@@ -1,5 +1,5 @@
 context:
-  version: "0.30.4"
+  version: "0.32.15"
   cuda: ${{ "true" if cuda_compiler_version != "None" else "" }}
   cuda_build_string: cuda_${{ cuda_compiler_version | version_to_buildstring }}
   string_prefix: ${{ cuda_build_string if cuda else "cpu_" }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 6241a89e287f08d95dc63cd9a9892de3c5dc7de70db89ee44f96c210d4ea6d8d
+  sha256: 5370f62c5dd875b58e37b312524af6af311119b5443e2907e20c2aa239fca52e
   patches:
     - 0001-cmake-forward-cross-compilation-vars.patch
 
@@ -81,3 +81,4 @@ extra:
     - jmakovicka
     - sodre
     - benmoss
+    - JakeLehle
