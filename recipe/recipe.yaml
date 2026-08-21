@@ -41,6 +41,7 @@ requirements:
       then:
         - ${{ stdlib('m2w64_c') }}
         - ${{ compiler('m2w64_cxx') }}
+        - ninja
       else:
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
