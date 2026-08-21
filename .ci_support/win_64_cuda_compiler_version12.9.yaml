@@ -13,6 +13,6 @@ m2w64_c_stdlib_version:
 m2w64_cxx_compiler:
 - gxx
 m2w64_cxx_compiler_version:
-- '14'
+- '15'
 target_platform:
 - win-64

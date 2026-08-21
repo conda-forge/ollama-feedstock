@@ -13,11 +13,11 @@ cuda_compiler_version:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '14'
+- '15'
 docker_image:
-- quay.io/condaforge/linux-anvil-aarch64:alma9
+- quay.io/condaforge/linux-anvil-x86_64:alma10
 target_platform:
-- linux-aarch64
+- linux-64
 zip_keys:
 - - cxx_compiler_version
   - c_stdlib_version
