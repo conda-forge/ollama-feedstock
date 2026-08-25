@@ -30,6 +30,7 @@ build:
       else: [build.sh]
   skip:
     - cuda and match(cuda_compiler_version, "<12")
+    - win and cuda
 
 requirements:
   build:
