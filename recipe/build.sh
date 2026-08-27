@@ -5,26 +5,29 @@ if [[ "$target_platform" == osx-* ]]; then
     export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 fi
 
+# go-localereader v0.0.1 doesn't compile on Windows; replace with a patched fork.
+go mod edit -replace github.com/mattn/go-localereader@v0.0.1=github.com/mattn/go-localereader@v0.0.2-0.20220822084749-2491eb6c1c75
+go mod tidy
+
+CMAKE_BACKEND_ARGS=()
 if [[ ${cuda_compiler_version} != "None" ]]; then
   if [[ ${cuda_compiler_version} == 12.* ]]; then
-    cmake ${CMAKE_ARGS} --preset 'CUDA 12' \
-        && cmake --build --preset 'CUDA 12' \
-        && cmake --install build --component CUDA --strip
+    CMAKE_BACKEND_ARGS=(-DOLLAMA_LLAMA_BACKENDS=cuda_v12)
   elif [[ ${cuda_compiler_version} == 13.* ]]; then
-    cmake ${CMAKE_ARGS} --preset 'CUDA 13' \
-        && cmake --build --preset 'CUDA 13' \
-        && cmake --install build --component CUDA --strip
+    CMAKE_BACKEND_ARGS=(-DOLLAMA_LLAMA_BACKENDS=cuda_v13)
   else
     echo "unsupported cuda version"
     exit 1
   fi
-else
-    cmake ${CMAKE_ARGS} --preset 'CPU' \
-        && cmake --build --preset 'CPU' \
-        && cmake --install build --component CPU --strip
 fi
 
+cmake ${CMAKE_ARGS} -B build \
+    -DOLLAMA_VERSION="${PKG_VERSION}" \
+    -DOLLAMA_MLX_BACKENDS= \
+    -DHOST_CXX_COMPILER="${CXX}" \
+    "${CMAKE_BACKEND_ARGS[@]}" \
+    .
+cmake --build build --parallel ${CPU_COUNT}
+cmake --install build --strip
 
-go build -trimpath -buildmode=pie -ldflags="-s -w -X=github.com/ollama/ollama/version.Version=${PKG_VERSION} -X=github.com/ollama/ollama/server.mode=release" -o $PREFIX/bin/ollama .
-
-go-licenses save . --save_path="$SRC_DIR/license-files/" 
+go-licenses save . --save_path="$SRC_DIR/license-files/"

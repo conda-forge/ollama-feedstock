@@ -1,5 +1,5 @@
 context:
-  version: "0.24.0"
+  version: "0.32.15"
   cuda: ${{ "true" if cuda_compiler_version != "None" else "" }}
   cuda_build_string: cuda_${{ cuda_compiler_version | version_to_buildstring }}
   string_prefix: ${{ cuda_build_string if cuda else "cpu_" }}
@@ -11,11 +11,9 @@ package:
 
 source:
   url: https://github.com/ollama/ollama/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: a97e4a545cb08ed0343f97dc964be49f707b8404f1c2e29ec1338ec96b556eb2
+  sha256: 5370f62c5dd875b58e37b312524af6af311119b5443e2907e20c2aa239fca52e
   patches:
-    - if: linux
-      then: 0002-Add-defines-missing-in-glibc-2.17.patch
-    - 0003-replace-go-localereader.patch
+    - 0001-cmake-forward-cross-compilation-vars.patch
 
 build:
   number: ${{ build_number }}
@@ -32,6 +30,7 @@ build:
       else: [build.sh]
   skip:
     - cuda and match(cuda_compiler_version, "<12")
+    - win and cuda
 
 requirements:
   build:
@@ -43,6 +42,7 @@ requirements:
       then:
         - ${{ stdlib('m2w64_c') }}
         - ${{ compiler('m2w64_cxx') }}
+        - ninja
       else:
         - ${{ stdlib('c') }}
         - ${{ compiler('cxx') }}
@@ -83,3 +83,4 @@ extra:
     - jmakovicka
     - sodre
     - benmoss
+    - JakeLehle
