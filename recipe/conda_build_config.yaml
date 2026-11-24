@@ -2,3 +2,10 @@ MACOSX_SDK_VERSION:        # [osx]
   - "14.5"                 # [osx]
 c_stdlib_version:  # [osx and x86_64]
   - "11.0"                 # [osx and x86_64]
+# CUDA builds are not supported on win-64 (nvcc requires the MSVC host
+# compiler, but we build with mingw). Drop the variants from the matrix
+# rather than skipping them in recipe.yaml: an all-skipped variant config
+# makes conda-forge-tick fail to parse the feedstock ("No output recipes
+# found"), which blocks automatic version updates.
+cuda_compiler_version:  # [win]
+  - None                # [win]
