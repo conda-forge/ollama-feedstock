@@ -9,3 +9,7 @@ c_stdlib_version:  # [osx and x86_64]
 # found"), which blocks automatic version updates.
 cuda_compiler_version:  # [win]
   - None                # [win]
+# go (pulled in by compiler('go-cgo')) constrains clangxx to 21.* on osx;
+# keep cxx in sync until go is rebuilt against the pinning's clang version.
+cxx_compiler_version:  # [osx]
+  - 21                 # [osx]
