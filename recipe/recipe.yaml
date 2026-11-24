@@ -36,7 +36,7 @@ requirements:
     - ${{ compiler('go-cgo') }}
     - cmake
     - make
-    - go-licenses ~= 1.6
+    - go-licenses >=2.0.1,<3
     - if: win
       then:
         - ${{ stdlib('m2w64_c') }}
