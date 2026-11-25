@@ -12,10 +12,9 @@ cmake --build build --parallel || exit 1
 cmake --install build || exit 1
 
 rem go-licenses 1.6 identifies stdlib packages by checking whether their files
-rem are under build.Default.GOROOT. The win go package's env_vars.d sets GOROOT
-rem to the literal "%BUILD_PREFIX%/go" (unexpanded, forward slashes), so nothing
-rem matches. Expand it, normalize separators, and verify the stdlib is there.
-for /f "delims=" %%i in ('go env GOROOT') do call set "GOROOT=%%i"
+rem are under build.Default.GOROOT. The win go 1.27 package sets GOROOT with
+rem forward slashes (env_vars.d), so it never prefix-matches native paths.
+rem Normalize the separators and verify the stdlib is there.
 set "GOROOT=%GOROOT:/=\%"
 echo GOROOT=%GOROOT%
 if not exist "%GOROOT%\src\fmt" (echo stdlib not found under GOROOT & exit 1)
