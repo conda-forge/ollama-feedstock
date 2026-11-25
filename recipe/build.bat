@@ -11,4 +11,11 @@ cmake %CMAKE_ARGS% -B build -DOLLAMA_VERSION=%PKG_VERSION% -DOLLAMA_MLX_BACKENDS
 cmake --build build --parallel || exit 1
 cmake --install build || exit 1
 
+rem go-licenses 1.6 identifies stdlib packages by checking whether their files
+rem are under build.Default.GOROOT. The win go 1.27 package sets GOROOT with
+rem forward slashes (env_vars.d), so it never prefix-matches native paths.
+rem Normalize the separators and verify the stdlib is there.
+set "GOROOT=%GOROOT:/=\%"
+echo GOROOT=%GOROOT%
+if not exist "%GOROOT%\src\fmt" (echo stdlib not found under GOROOT & exit 1)
 go-licenses save . --save_path="%SRC_DIR%/license-files/" || exit 1
