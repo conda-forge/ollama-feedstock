@@ -11,4 +11,8 @@ cmake %CMAKE_ARGS% -B build -DOLLAMA_VERSION=%PKG_VERSION% -DOLLAMA_MLX_BACKENDS
 cmake --build build --parallel || exit 1
 cmake --install build || exit 1
 
+rem go-licenses 1.6 identifies stdlib packages by build.Default.GOROOT, which
+rem does not match the conda go 1.27 layout on win; point it at the real GOROOT.
+for /f "delims=" %%i in ('go env GOROOT') do set "GOROOT=%%i"
+echo GOROOT=%GOROOT%
 go-licenses save . --save_path="%SRC_DIR%/license-files/" || exit 1
