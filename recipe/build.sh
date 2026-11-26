@@ -25,9 +25,16 @@ if [[ ${cuda_compiler_version} != "None" ]]; then
   fi
 fi
 
+MLX_BACKENDS=
+if [[ "${target_platform}" == "osx-arm64" ]]; then
+  # Ship both; at runtime ollama prefers metal_v4 and falls back to metal_v3
+  # on macOS < 26. metal_v4 requires the macOS 26.2 SDK at build time.
+  MLX_BACKENDS="metal_v3;metal_v4"
+fi
+
 cmake ${CMAKE_ARGS} -B build \
     -DOLLAMA_VERSION="${PKG_VERSION}" \
-    -DOLLAMA_MLX_BACKENDS= \
+    -DOLLAMA_MLX_BACKENDS="${MLX_BACKENDS}" \
     -DHOST_CXX_COMPILER="${CXX}" \
     "${CMAKE_BACKEND_ARGS[@]}" \
     .

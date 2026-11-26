@@ -1,7 +1,15 @@
 MACOSX_SDK_VERSION:        # [osx]
-  - "14.5"                 # [osx]
-c_stdlib_version:  # [osx and x86_64]
+  - "14.5"                 # [osx and x86_64]
+  # MLX metal_v4 backend requires the macOS 26.2 SDK
+  - "26.5"                 # [osx and arm64]
+c_stdlib_version:  # [osx]
   - "11.0"                 # [osx and x86_64]
+  # MLX (metal_v3 backend) requires macOS >= 14.0
+  - "14.0"                 # [osx and arm64]
+# MLX's Metal kernels are compiled with the runner's Xcode (`xcrun metal`);
+# metal_v4 needs Xcode with the macOS 26.2+ SDK.
+github_actions_labels:     # [osx and arm64]
+  - macos-26               # [osx and arm64]
 # CUDA builds are not supported on win-64 (nvcc requires the MSVC host
 # compiler, but we build with mingw). Drop the variants from the matrix
 # rather than skipping them in recipe.yaml: an all-skipped variant config

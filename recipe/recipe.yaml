@@ -72,6 +72,12 @@ tests:
         then: HOME=/tmp ollama --version  # ollama panics if $HOME is unset (upstream regression in v0.20.7)
       - if: win
         then: ollama --version
+  - if: osx and arm64
+    then:
+      package_contents:
+        files:
+          - lib/ollama/mlx_metal_v3/libmlxc.dylib
+          - lib/ollama/mlx_metal_v4/libmlxc.dylib
 
 about:
   homepage: https://ollama.com/
