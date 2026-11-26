@@ -60,6 +60,8 @@ requirements:
       then:
         - cuda-version ==${{ cuda_compiler_version }}
         - libcublas-dev
+        # ggml-cuda includes nvml.h (NVML itself is dlopen'ed at runtime)
+        - cuda-nvml-dev
   ignore_run_exports:
     from_package:
       - if: cuda
