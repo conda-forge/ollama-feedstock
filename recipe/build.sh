@@ -5,6 +5,10 @@ if [[ "$target_platform" == osx-* ]]; then
     export CXXFLAGS="${CXXFLAGS} -D_LIBCPP_DISABLE_AVAILABILITY"
 fi
 
+# The CUDA 12 variant uses the nocgo go toolchain (see recipe.yaml), whose
+# activation sets CGO_ENABLED=0. ollama needs cgo, so enable it everywhere.
+export CGO_ENABLED=1
+
 # go-localereader v0.0.1 doesn't compile on Windows; replace with a patched fork.
 go mod edit -replace github.com/mattn/go-localereader@v0.0.1=github.com/mattn/go-localereader@v0.0.2-0.20220822084749-2491eb6c1c75
 go mod tidy

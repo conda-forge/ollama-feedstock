@@ -33,7 +33,13 @@ build:
 
 requirements:
   build:
-    - ${{ compiler('go-cgo') }}
+    # go's cgo builds carry a run_constraint on the pinning's C compiler
+    # (gcc 15 for go >=1.27), but nvcc 12.x only supports gcc <=14. Use the
+    # nocgo toolchain there; ollama's cmake forces CGO_ENABLED=1 and cgo
+    # picks up $CC/$CXX from the conda gcc 14 activation.
+    - if: cuda and match(cuda_compiler_version, "<13")
+      then: ${{ compiler('go-nocgo') }}
+      else: ${{ compiler('go-cgo') }}
     - cmake
     - make
     - go-licenses ~= 1.6
